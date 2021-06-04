@@ -22,10 +22,16 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
   const [year, setYear] = React.useState(2008);
+  const [gp, setGp] = React.useState();
   const [info, setInfo] = React.useState([]);
+  const [round, setRound] = React.useState(1);
 
-  const handleChange = (event) => {
+  const handleYearChange = (event) => {
     setYear(event.target.value);
+  };
+
+  const handleRoundChange = (event) => {
+    setRound(event.target.value);
   };
 
   const years = [
@@ -33,29 +39,52 @@ function App() {
     2020,
   ];
 
+  const rounds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+
   React.useEffect(() => {
-    fetch("http://ergast.com/api/f1/" + year + "/5/results.json")
+    fetch("http://ergast.com/api/f1/" + year + "/" + round + "/results.json")
       .then((res) => res.json())
       .then((data) => setInfo(data.MRData.RaceTable.Races[0].Results));
-  }, [year]);
+    fetch("http://ergast.com/api/f1/" + year + "/" + round + "/results.json")
+      .then((res) => res.json())
+      .then((data) => setGp(data.MRData.RaceTable.Races[0]));
+  }, [year, round]);
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>F1 Tracker</h1>
+        <h1>F1 Tracker - {gp["raceName"]}</h1>
         <FormControl className={classes.formControl}>
-          <InputLabel id="demo-simple-select-label">Age</InputLabel>
+          <InputLabel id="demo-simple-select-label">Year</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            labelId="year-select-label"
+            id="year-select"
             value={year}
-            onChange={handleChange}
+            onChange={handleYearChange}
           >
             {years.map((year) => (
-              <MenuItem value={year}>{year}</MenuItem>
+              <MenuItem key={year} value={year}>
+                {year}
+              </MenuItem>
             ))}
           </Select>
           <FormHelperText>Choose the year</FormHelperText>
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <InputLabel id="demo-simple-select-label">Round</InputLabel>
+          <Select
+            labelId="round-select-label"
+            id="round-select"
+            value={round}
+            onChange={handleRoundChange}
+          >
+            {rounds.map((round) => (
+              <MenuItem key={round} value={round}>
+                {round}
+              </MenuItem>
+            ))}
+          </Select>
+          <FormHelperText>Choose the round</FormHelperText>
         </FormControl>
         {info.map((key) => (
           <li key={key["Driver"]["driverId"]}>
