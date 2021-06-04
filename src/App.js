@@ -9,6 +9,14 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -17,12 +25,15 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  table: {
+    minWidth: 400,
+  },
 }));
 
 function App() {
   const classes = useStyles();
   const [year, setYear] = React.useState(2008);
-  const [gp, setGp] = React.useState();
+  const [gp, setGp] = React.useState({});
   const [info, setInfo] = React.useState([]);
   const [round, setRound] = React.useState(1);
 
@@ -54,44 +65,70 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>F1 Tracker - {gp["raceName"]}</h1>
-        <FormControl className={classes.formControl}>
-          <InputLabel id="demo-simple-select-label">Year</InputLabel>
-          <Select
-            labelId="year-select-label"
-            id="year-select"
-            value={year}
-            onChange={handleYearChange}
-          >
-            {years.map((year) => (
-              <MenuItem key={year} value={year}>
-                {year}
-              </MenuItem>
-            ))}
-          </Select>
-          <FormHelperText>Choose the year</FormHelperText>
-        </FormControl>
-        <FormControl className={classes.formControl}>
-          <InputLabel id="demo-simple-select-label">Round</InputLabel>
-          <Select
-            labelId="round-select-label"
-            id="round-select"
-            value={round}
-            onChange={handleRoundChange}
-          >
-            {rounds.map((round) => (
-              <MenuItem key={round} value={round}>
-                {round}
-              </MenuItem>
-            ))}
-          </Select>
-          <FormHelperText>Choose the round</FormHelperText>
-        </FormControl>
-        {info.map((key) => (
-          <li key={key["Driver"]["driverId"]}>
-            {key["position"]} : {key["Driver"]["givenName"]}{" "}
-            {key["Driver"]["familyName"]} - {key["number"]}
-          </li>
-        ))}
+        <div>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="demo-simple-select-label">Year</InputLabel>
+            <Select
+              labelId="year-select-label"
+              id="year-select"
+              value={year}
+              onChange={handleYearChange}
+            >
+              {years.map((year) => (
+                <MenuItem key={year} value={year}>
+                  {year}
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText>Choose the year</FormHelperText>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="demo-simple-select-label">Round</InputLabel>
+            <Select
+              labelId="round-select-label"
+              id="round-select"
+              value={round}
+              onChange={handleRoundChange}
+            >
+              {rounds.map((round) => (
+                <MenuItem key={round} value={round}>
+                  {round}
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText>Choose the round</FormHelperText>
+          </FormControl>
+        </div>
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell align="right">Position</TableCell>
+                <TableCell align="right">Number</TableCell>
+                <TableCell align="right">Time</TableCell>
+                <TableCell align="right">Constructor</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {info.map((key) => (
+                <TableRow key={key["Driver"]["driverId"]}>
+                  <TableCell component="th" scope="row">
+                    {key["Driver"]["givenName"]} {key["Driver"]["familyName"]}
+                  </TableCell>
+                  <TableCell align="right">{key["position"]}</TableCell>
+                  <TableCell align="right">{key["number"]}</TableCell>
+                  <TableCell align="right">
+                    {key["Time"] ? key["Time"]["time"] : 0}
+                  </TableCell>
+                  <TableCell align="right">
+                    {key["Constructor"]["name"]}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </header>
     </div>
   );
