@@ -16,6 +16,9 @@ import Paper from "@material-ui/core/Paper";
 
 import { makeStyles } from "@material-ui/core/styles";
 
+import { Link } from "react-router-dom";
+import { Button } from "@material-ui/core";
+
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -35,6 +38,7 @@ export default function Results() {
   const [gp, setGp] = React.useState({});
   const [info, setInfo] = React.useState([]);
   const [round, setRound] = React.useState(1);
+  const [latest, setLatest] = React.useState({});
 
   const handleYearChange = (event) => {
     setYear(event.target.value);
@@ -60,6 +64,9 @@ export default function Results() {
     fetch("http://ergast.com/api/f1/" + year + "/" + round + "/results.json")
       .then((res) => res.json())
       .then((data) => setGp(data.MRData.RaceTable.Races[0]));
+    fetch("https://ergast.com/api/f1/current/last/results.json")
+      .then((res) => res.json())
+      .then((data) => setLatest(data.MRData.RaceTable));
   }, [year, round]);
 
   return (
@@ -99,6 +106,15 @@ export default function Results() {
             </Select>
             <FormHelperText>Choose the round</FormHelperText>
           </FormControl>
+          <Button
+            onClick={() => {
+              setYear(latest["season"]);
+              setRound(latest["round"]);
+            }}
+            color="inherit"
+          >
+            Latest
+          </Button>
         </div>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
@@ -115,7 +131,9 @@ export default function Results() {
               {info.map((key) => (
                 <TableRow key={key["Driver"]["driverId"]}>
                   <TableCell component="th" scope="row" align="center">
-                    {key["Driver"]["givenName"]} {key["Driver"]["familyName"]}
+                    <a href={key["Driver"]["url"]}>
+                      {key["Driver"]["givenName"]} {key["Driver"]["familyName"]}
+                    </a>
                   </TableCell>
                   <TableCell align="right">{key["position"]}</TableCell>
                   <TableCell align="right">{key["number"]}</TableCell>

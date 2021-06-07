@@ -23,18 +23,23 @@ export default function NavBar() {
     <div>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             edge="start"
             color="inherit"
             aria-label="menu"
             className={classes.menuButton}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography variant="h6" className={classes.title}>
-            F1 - Stats
+            F1 - STATS
           </Typography>
-          {/* <Button color="inherit">Signup</Button> */}
+          <Button color="inherit" href="/results">
+            Results
+          </Button>
+          <Button color="inherit" href="/">
+            Schedule
+          </Button>
         </Toolbar>
       </AppBar>
     </div>

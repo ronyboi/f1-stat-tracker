@@ -16,6 +16,9 @@ import Paper from "@material-ui/core/Paper";
 
 import { makeStyles } from "@material-ui/core/styles";
 
+import Countdown from "./Countdown";
+import { Button } from "@material-ui/core";
+
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -33,6 +36,7 @@ export default function Schedule() {
   const classes = useStyles();
   const [year, setYear] = React.useState(2008);
   const [info, setInfo] = React.useState([]);
+  const [time, setTime] = React.useState(new Date().getTime());
 
   const handleYearChange = (event) => {
     setYear(event.target.value);
@@ -48,6 +52,13 @@ export default function Schedule() {
       .then((res) => res.json())
       .then((data) => setInfo(data.MRData.RaceTable.Races));
   }, [year]);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(new Date().getTime());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="App">
@@ -70,6 +81,12 @@ export default function Schedule() {
             </Select>
             <FormHelperText>Choose the year</FormHelperText>
           </FormControl>
+          <Button
+            color="inherit"
+            onClick={() => setYear(new Date().getFullYear())}
+          >
+            Latest
+          </Button>
         </div>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
@@ -81,13 +98,14 @@ export default function Schedule() {
                 <TableCell align="right">City</TableCell>
                 <TableCell align="right">Date</TableCell>
                 <TableCell align="right">Round</TableCell>
+                <TableCell align="right">Countdown</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {info.map((key) => (
                 <TableRow key={key["raceName"]}>
                   <TableCell component="th" scope="row" align="center">
-                    {key["raceName"]}
+                    <a href={key["url"]}> {key["raceName"]}</a>
                   </TableCell>
                   <TableCell align="right">
                     {key["Circuit"]["circuitName"]}
@@ -100,6 +118,13 @@ export default function Schedule() {
                   </TableCell>
                   <TableCell align="right">{key["date"]}</TableCell>
                   <TableCell align="right">{key["round"]}</TableCell>
+                  <TableCell align="right">
+                    <Countdown
+                      currentTime={time}
+                      gpDate={key["date"]}
+                      gpTime={key["time"]}
+                    />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
