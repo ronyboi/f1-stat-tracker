@@ -24,6 +24,13 @@
   color: #3f51b5;
 }
 
+.inputSec {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
 .App-link {
   color: #61dafb;
 }

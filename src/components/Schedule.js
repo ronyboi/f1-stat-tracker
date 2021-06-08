@@ -19,6 +19,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Countdown from "./Countdown";
 import { Button } from "@material-ui/core";
 
+import Grid from "@material-ui/core/Grid";
+
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -28,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   table: {
-    minWidth: 400,
+    minWidth: 600,
+    margin: "auto",
   },
 }));
 
@@ -62,32 +65,32 @@ export default function Schedule() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>F1 Tracker - {year}</h1>
-        <div>
-          <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">Year</InputLabel>
-            <Select
-              labelId="year-select-label"
-              id="year-select"
-              value={year}
-              onChange={handleYearChange}
-            >
-              {years.map((year) => (
-                <MenuItem key={year} value={year}>
-                  {year}
-                </MenuItem>
-              ))}
-            </Select>
-            <FormHelperText>Choose the year</FormHelperText>
-          </FormControl>
-          <Button
-            color="inherit"
-            onClick={() => setYear(new Date().getFullYear())}
+      <h1>Race Schedule for the {year} season</h1>
+      <div className="inputSec">
+        <FormControl className={classes.formControl}>
+          <InputLabel id="demo-simple-select-label">Year</InputLabel>
+          <Select
+            labelId="year-select-label"
+            id="year-select"
+            value={year}
+            onChange={handleYearChange}
           >
-            Latest
-          </Button>
-        </div>
+            {years.map((year) => (
+              <MenuItem key={year} value={year}>
+                {year}
+              </MenuItem>
+            ))}
+          </Select>
+          <FormHelperText>Choose the year</FormHelperText>
+        </FormControl>
+        <Button
+          color="inherit"
+          onClick={() => setYear(new Date().getFullYear())}
+        >
+          Latest
+        </Button>
+      </div>
+      <Grid container direction="column" justify="center" alignItems="baseline">
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
@@ -130,7 +133,7 @@ export default function Schedule() {
             </TableBody>
           </Table>
         </TableContainer>
-      </header>
+      </Grid>
     </div>
   );
 }

@@ -70,52 +70,55 @@ export default function Results() {
   }, [year, round]);
 
   return (
+    // style={{ backgroundImage: "url(/formula1_image_test.jpeg)" }}
     <div className="App">
-      <header className="App-header">
-        <h1>F1 Tracker - {gp["raceName"]}</h1>
-        <div>
-          <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">Year</InputLabel>
-            <Select
-              labelId="year-select-label"
-              id="year-select"
-              value={year}
-              onChange={handleYearChange}
-            >
-              {years.map((year) => (
-                <MenuItem key={year} value={year}>
-                  {year}
-                </MenuItem>
-              ))}
-            </Select>
-            <FormHelperText>Choose the year</FormHelperText>
-          </FormControl>
-          <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">Round</InputLabel>
-            <Select
-              labelId="round-select-label"
-              id="round-select"
-              value={round}
-              onChange={handleRoundChange}
-            >
-              {rounds.map((round) => (
-                <MenuItem key={round} value={round}>
-                  {round}
-                </MenuItem>
-              ))}
-            </Select>
-            <FormHelperText>Choose the round</FormHelperText>
-          </FormControl>
-          <Button
-            onClick={() => {
-              setYear(latest["season"]);
-              setRound(latest["round"]);
-            }}
-            color="inherit"
+      <h1>
+        Results: {year} {gp["raceName"]}
+      </h1>
+      <div className="inputSec">
+        <FormControl className={classes.formControl}>
+          <InputLabel id="demo-simple-select-label">Year</InputLabel>
+          <Select
+            labelId="year-select-label"
+            id="year-select"
+            value={year}
+            onChange={handleYearChange}
           >
-            Latest
-          </Button>
-        </div>
+            {years.map((year) => (
+              <MenuItem key={year} value={year}>
+                {year}
+              </MenuItem>
+            ))}
+          </Select>
+          <FormHelperText>Choose the year</FormHelperText>
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <InputLabel id="demo-simple-select-label">Round</InputLabel>
+          <Select
+            labelId="round-select-label"
+            id="round-select"
+            value={round}
+            onChange={handleRoundChange}
+          >
+            {rounds.map((round) => (
+              <MenuItem key={round} value={round}>
+                {round}
+              </MenuItem>
+            ))}
+          </Select>
+          <FormHelperText>Choose the round</FormHelperText>
+        </FormControl>
+        <Button
+          onClick={() => {
+            setYear(latest["season"]);
+            setRound(latest["round"]);
+          }}
+          color="inherit"
+        >
+          Latest
+        </Button>
+      </div>
+      <div>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
@@ -148,7 +151,7 @@ export default function Results() {
             </TableBody>
           </Table>
         </TableContainer>
-      </header>
+      </div>
     </div>
   );
 }
