@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   table: {
-    minWidth: 600,
+    maxWidth: 1000,
     margin: "auto",
   },
 }));
@@ -90,50 +90,49 @@ export default function Schedule() {
           Latest
         </Button>
       </div>
-      <Grid container direction="column" justify="center" alignItems="baseline">
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="center">Name</TableCell>
-                <TableCell align="right">Circuit Name</TableCell>
-                <TableCell align="right">Country</TableCell>
-                <TableCell align="right">City</TableCell>
-                <TableCell align="right">Date</TableCell>
-                <TableCell align="right">Round</TableCell>
-                <TableCell align="right">Countdown</TableCell>
+
+      <TableContainer component={Paper}>
+        <Table className={classes.table} size="small" aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">Name</TableCell>
+              <TableCell align="right">Circuit Name</TableCell>
+              <TableCell align="right">Country</TableCell>
+              <TableCell align="right">City</TableCell>
+              <TableCell align="right">Date</TableCell>
+              <TableCell align="right">Round</TableCell>
+              <TableCell align="right">Countdown</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {info.map((key) => (
+              <TableRow key={key["raceName"]}>
+                <TableCell component="th" scope="row" align="center">
+                  <a href={key["url"]}> {key["raceName"]}</a>
+                </TableCell>
+                <TableCell align="right">
+                  {key["Circuit"]["circuitName"]}
+                </TableCell>
+                <TableCell align="right">
+                  {key["Circuit"]["Location"]["country"]}
+                </TableCell>
+                <TableCell align="right">
+                  {key["Circuit"]["Location"]["locality"]}
+                </TableCell>
+                <TableCell align="right">{key["date"]}</TableCell>
+                <TableCell align="right">{key["round"]}</TableCell>
+                <TableCell align="right">
+                  <Countdown
+                    currentTime={time}
+                    gpDate={key["date"]}
+                    gpTime={key["time"]}
+                  />
+                </TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {info.map((key) => (
-                <TableRow key={key["raceName"]}>
-                  <TableCell component="th" scope="row" align="center">
-                    <a href={key["url"]}> {key["raceName"]}</a>
-                  </TableCell>
-                  <TableCell align="right">
-                    {key["Circuit"]["circuitName"]}
-                  </TableCell>
-                  <TableCell align="right">
-                    {key["Circuit"]["Location"]["country"]}
-                  </TableCell>
-                  <TableCell align="right">
-                    {key["Circuit"]["Location"]["locality"]}
-                  </TableCell>
-                  <TableCell align="right">{key["date"]}</TableCell>
-                  <TableCell align="right">{key["round"]}</TableCell>
-                  <TableCell align="right">
-                    <Countdown
-                      currentTime={time}
-                      gpDate={key["date"]}
-                      gpTime={key["time"]}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Grid>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 }

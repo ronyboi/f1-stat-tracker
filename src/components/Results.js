@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   table: {
-    minWidth: 400,
+    maxWidth: 1000,
+    margin: "auto",
   },
 }));
 
@@ -120,7 +121,11 @@ export default function Results() {
       </div>
       <div>
         <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="simple table">
+          <Table
+            className={classes.table}
+            size="small"
+            aria-label="simple table"
+          >
             <TableHead>
               <TableRow>
                 <TableCell align="center">Name</TableCell>
