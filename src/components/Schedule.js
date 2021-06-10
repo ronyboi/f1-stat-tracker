@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   table: {
-    maxWidth: 1000,
+    maxWidth: 1200,
     margin: "auto",
   },
 }));
