@@ -51,7 +51,7 @@ export default function Schedule() {
   ];
 
   React.useEffect(() => {
-    fetch("http://ergast.com/api/f1/" + year + ".json")
+    fetch("https://ergast.com/api/f1/" + year + ".json")
       .then((res) => res.json())
       .then((data) => setInfo(data.MRData.RaceTable.Races));
   }, [year]);

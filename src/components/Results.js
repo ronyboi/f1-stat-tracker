@@ -59,10 +59,10 @@ export default function Results() {
   ];
 
   React.useEffect(() => {
-    fetch("http://ergast.com/api/f1/" + year + "/" + round + "/results.json")
+    fetch("https://ergast.com/api/f1/" + year + "/" + round + "/results.json")
       .then((res) => res.json())
       .then((data) => setInfo(data.MRData.RaceTable.Races[0].Results));
-    fetch("http://ergast.com/api/f1/" + year + "/" + round + "/results.json")
+    fetch("https://ergast.com/api/f1/" + year + "/" + round + "/results.json")
       .then((res) => res.json())
       .then((data) => setGp(data.MRData.RaceTable.Races[0]));
     fetch("https://ergast.com/api/f1/current/last/results.json")
