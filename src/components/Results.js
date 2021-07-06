@@ -46,7 +46,11 @@ export default function Results() {
   };
 
   const handleRoundChange = (event) => {
-    setRound(event.target.value);
+    if (event.target.value > latest["round"] && year == latest["season"]) {
+      setRound(latest["round"]);
+    } else {
+      setRound(event.target.value);
+    }
   };
 
   const years = [
@@ -146,7 +150,7 @@ export default function Results() {
                   <TableCell align="right">{key["position"]}</TableCell>
                   <TableCell align="right">{key["number"]}</TableCell>
                   <TableCell align="right">
-                    {key["Time"] ? key["Time"]["time"] : 0}
+                    {key["Time"] ? key["Time"]["time"] : key["status"]}
                   </TableCell>
                   <TableCell align="right">
                     {key["Constructor"]["name"]}
